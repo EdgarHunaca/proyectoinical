@@ -3,38 +3,34 @@
 var models = require('../models/model.js');
 
 exports.registroContacto = function (req, res){
-	var agenda = models.Contacto.build({ nombres: "Nombre",
+	var contacto = models.Contacto.build({ nombres: "Nombre",
 									apellidoPaterno: "Paterno",
 									apellidoMaterno: "Materno",
 									telefonoPersonal: 0,
 									telefonoDomicilio: 0,
 									cumpleanos: new Date()});
 
-	res.render('registroContacto', {title:'Registro de Contacto', agenda: agenda});
+	res.render('registroContacto', {title:'registro de Contacto', contacto: contacto});
 }
 
 exports.respuestaContacto = function (req, res){
 	res.render('respuestaContacto', {mensaje:'Se registro el contacto'});
 }
 
-exports.guardarContacto = function(req, res){
-	console.log("ingresa a guardar"+req.body.contacto);
 
-	var contacto = models.Contacto.build ({
-		nombres: req.body.contacto.nombres
-	})
-    //a continuacion guardamos los campos que recibimos del formulario
-    (req.body.contacto);
+exports.guardarContacto = function (req,res){
+	var contacto = models.Contacto.build(req.body.contacto);
+
     contacto.save	({fields:["nombres",
     					  "apellidoPaterno",
     					  "apellidoMaterno",
     					  "telefonoPersonal",
     					  "telefonoDomicilio",
-    					  
+    					  "cumpleanos"
     					  ]
     			 }).then(function(){
-    			 	console.log("ingresa a redirecr");
-    			 	res.render('respuestaContacto', {mensaje:'Se registro el contacto con exito'});
+    			 	console.log("ingresa a redirectorio");
+    			 	res.redirect('/');
     			 });  	
 }
 
@@ -43,16 +39,6 @@ exports.index = function (req, res, next){
 		 res.render('index',{title: 'Avances en computacion',contactos: contactos});
 	})
 }
-
-
-//exports.respuestaContacto = function (req,res){
-//	res.render('respuestaContacto',{mensaje:'se registro el contacto'});
-//}
-
-//exports.registroContacto = function (req,res){
-//	res.render('registro',{titulo:'registro de contacto'});
-//}
-
 
 
 //Registro de Contacto
